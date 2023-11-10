@@ -1,0 +1,12 @@
+﻿Williams 1992,0
+McLaren 1988,1
+McLaren 2008,2
+Ferrari 2004,3
+Ferrari 1995,4
+Ferrari 2007,5
+McLaren 1998,6
+Williams 1996,7
+Renault 2006,8
+Ferrari 2002,10
+Redbull 2010,11
+McLaren 1991,12

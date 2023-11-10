@@ -1,0 +1,20 @@
+﻿Lewis Hamilton,9
+Valtteri Bottas,15
+Daniel Ricciardo,16
+Max Verstappen,22
+Sebastian Vettel,0
+Kimi Räikkönen,6
+Sergio Perez,5
+Esteban Ocon,33
+Felipe Massa,3
+Lance Stroll,35
+Fernando Alonso,2
+Mats Eklund,34
+Carlos Sainz Jr,23
+Daniil Kvyat,1
+Romain Grosjean,7
+Kevin Magnussen,14
+Juha Huhtala,10
+Jolyon Palmer,20
+Mikael Mellström,18
+Pascal Wehrlein,31

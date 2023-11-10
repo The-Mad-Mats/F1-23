@@ -1,0 +1,33 @@
+﻿Australia,0
+France,1
+China,2
+Bahrain,3
+Spain,4
+Monaco,5
+Canada,6
+England,7
+Germany,8
+Hungary,9
+Belgium,10
+Italy,11
+Singapore,12
+Japan,13
+AbuDhabi,14
+USA,15
+Brazil,16
+Austria,17
+Russia,18
+Mexico,19
+Azerbaijan,20
+BahrainShort,21
+EnglandShort,22
+USAShort,23
+JapanShort,24
+Hanoi,25
+Zandvoort,26
+Imola,27
+Portimao,28
+Jeddah,29
+Miami,30
+Vegas, 31
+Qatar, 32
