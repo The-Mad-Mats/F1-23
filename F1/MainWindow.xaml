@@ -329,7 +329,7 @@
                 <DataGrid Name="ResultGrid" ItemsSource="{Binding Users}" Grid.Row="1" Grid.ColumnSpan="4" Grid.Column="0" Width="Auto" AutoGenerateColumns="False" CanUserAddRows="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Position" Binding="{Binding m_position}" Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
-                        <DataGridTextColumn Header="Driver" Binding="{Binding ViewName}" Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
+                        <DataGridTextColumn Header="Driver" Binding="{Binding Name}" Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
                         <DataGridTextColumn Header="Team" Binding="{Binding Team}" Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
                         <DataGridTextColumn Header="Grid" Binding="{Binding m_gridPosition}" Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
                         <DataGridTextColumn Header="Pit stops" Binding="{Binding m_numPitStops}"  Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
@@ -338,6 +338,7 @@
                         <DataGridTextColumn Header="Points" Binding="{Binding m_points}" Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
                         <DataGridTextColumn Header="Penalties" Binding="{Binding m_numPenalties}"  Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
                         <DataGridTextColumn Header="Time" Binding="{Binding m_penaltiesTime}"  Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
+                        <DataGridTextColumn Header="Warnings" Binding="{Binding m_warnings}"  Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
@@ -385,33 +386,23 @@
                     </Grid.ColumnDefinitions>
                     <Label Content="Highlighted drivers" FontSize="24" Grid.Row="0" Grid.Column="0"/>
                     <Label Content="Driver name" FontSize="18" Grid.Row="1" Grid.Column="0"/>
-                    <!--<Label Content="Team" FontSize="18" Grid.Row="1" Grid.Column="1"/>
-                    <Label Content="Nationality" FontSize="18" Grid.Row="1" Grid.Column="2"/>
-                    <Label Content="Display name" FontSize="18" Grid.Row="1" Grid.Column="3"/>-->
                     <Label Content="Color" FontSize="18" Grid.Row="1" Grid.Column="1"/>
-                    <TextBox Text="{Binding Path=HighLights[0].Name,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="3" Grid.Column="0"/>
-                    <!--<ComboBox ItemsSource="{Binding Path=Teams}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding Path=HighLights[0].Team}" Grid.Row="3" Grid.Column="1"/>
-                    <ComboBox ItemsSource="{Binding Path=Nationality}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding Path=HighLights[0].Country}" Grid.Row="3" Grid.Column="2"/>
-                    <TextBox Text="{Binding Path=HighLights[0].ShowName,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="3" Grid.Column="3"/>-->
+                    <Label Content="Human" FontSize="18" Grid.Row="1" Grid.Column="2"/>
+                    <TextBox Text="{Binding Path=HighLights[0].Name}" Grid.Row="3" Grid.Column="0"/>
                     <ComboBox ItemsSource="{Binding Path=Colors}" SelectedItem="{Binding Path=HighLights[0].Color}" Grid.Row="3" Grid.Column="1"/>
+                    <CheckBox IsChecked="{Binding Path=HighLights[0].Human, Mode=TwoWay}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" Margin="10,10,10,10"/>
 
                     <TextBox Text="{Binding Path=HighLights[1].Name,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="4" Grid.Column="0"/>
-                    <!--<ComboBox ItemsSource="{Binding Path=Teams}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding Path=HighLights[1].Team}" Grid.Row="4" Grid.Column="1"/>
-                    <ComboBox ItemsSource="{Binding Path=Nationality}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding Path=HighLights[1].Country}" Grid.Row="4" Grid.Column="2"/>
-                    <TextBox Text="{Binding Path=HighLights[1].ShowName,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="4" Grid.Column="3"/>-->
                     <ComboBox ItemsSource="{Binding Path=Colors}" SelectedItem="{Binding Path=HighLights[1].Color}" Grid.Row="4" Grid.Column="1"/>
+                    <CheckBox IsChecked="{Binding Path=HighLights[1].Human, Mode=TwoWay}" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="10,10,10,10"/>
 
                     <TextBox Text="{Binding Path=HighLights[2].Name,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="5" Grid.Column="0"/>
-                    <!--<ComboBox ItemsSource="{Binding Path=Teams}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding Path=HighLights[2].Team}" Grid.Row="5" Grid.Column="1"/>
-                    <ComboBox ItemsSource="{Binding Path=Nationality}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding Path=HighLights[2].Country}" Grid.Row="5" Grid.Column="2"/>
-                    <TextBox Text="{Binding Path=HighLights[2].ShowName,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="5" Grid.Column="3"/>-->
                     <ComboBox ItemsSource="{Binding Path=Colors}" SelectedItem="{Binding Path=HighLights[2].Color}" Grid.Row="5" Grid.Column="1"/>
+                    <CheckBox IsChecked="{Binding Path=HighLights[2].Human, Mode=TwoWay}" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" Margin="10,10,10,10"/>
 
                     <TextBox Text="{Binding Path=HighLights[3].Name,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="6" Grid.Column="0"/>
-                    <!--<ComboBox ItemsSource="{Binding Path=Teams}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding Path=HighLights[3].Team}" Grid.Row="6" Grid.Column="1"/>
-                    <ComboBox ItemsSource="{Binding Path=Nationality}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding Path=HighLights[3].Country}" Grid.Row="6" Grid.Column="2"/>
-                    <TextBox Text="{Binding Path=HighLights[3].ShowName,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="6" Grid.Column="3"/>-->
                     <ComboBox ItemsSource="{Binding Path=Colors}" SelectedItem="{Binding Path=HighLights[3].Color}" Grid.Row="6" Grid.Column="1"/>
+                    <CheckBox IsChecked="{Binding Path=HighLights[3].Human, Mode=TwoWay}" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" Margin="10,10,10,10"/>
 
                     <Label Content="Settings" FontSize="24" Grid.Row="7" Grid.Column="0"/>
                     <Label Content="Port" FontSize="18" Grid.Row="8" Grid.Column="0"/>

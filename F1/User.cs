@@ -32,14 +32,14 @@ namespace F1
         public string _pits;
         #endregion
         public string Name { get; set; }
-        public string ViewName
-        {
-            get
-            {
-                var show = ViewModel.HighLights.FirstOrDefault(x => x.Name == Name && x.Team == _team && x.Country == _country);
-                return show?.ShowName ?? Name;
-            }
-        }
+        //public string ViewName
+        //{
+        //    get
+        //    {
+        //        var show = ViewModel.HighLights.FirstOrDefault(x => x.Name == Name && x.Team == _team && x.Country == _country);
+        //        return show?.ShowName ?? Name;
+        //    }
+        //}
 
 
         public int PassPlus { get; set; }
@@ -240,6 +240,7 @@ namespace F1
             }
         }
         public string Penalties { get; set; }
+        public string Warnings { get; set; }
 
         public string TyreLaps { get; set; }
 

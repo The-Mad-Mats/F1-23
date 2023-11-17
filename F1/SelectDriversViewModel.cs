@@ -20,10 +20,6 @@ namespace F1
             }
         }
 
-        //public static void SetAllDrivers(ObservableCollection<DriverGraph> drivers)
-        //{
-        //    _
-        //}
     }
 
     public class DriverGraph

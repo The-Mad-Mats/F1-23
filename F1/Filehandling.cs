@@ -17,10 +17,10 @@ namespace F1
             var filename = "Names\\HighlightedDrivers.txt";
             using (StreamWriter writer = new StreamWriter(filename))
             {
-                writer.WriteLine(HighLights[0].Name + "," + HighLights[0].Team + "," + HighLights[0].Country + "," + HighLights[0].ShowName + "," + HighLights[0].Color);
-                writer.WriteLine(HighLights[1].Name + "," + HighLights[1].Team + "," + HighLights[1].Country + "," + HighLights[1].ShowName + "," + HighLights[1].Color);
-                writer.WriteLine(HighLights[2].Name + "," + HighLights[2].Team + "," + HighLights[2].Country + "," + HighLights[2].ShowName + "," + HighLights[2].Color);
-                writer.WriteLine(HighLights[3].Name + "," + HighLights[3].Team + "," + HighLights[3].Country + "," + HighLights[3].ShowName + "," + HighLights[3].Color);
+                writer.WriteLine(HighLights[0].Name + ","  + HighLights[0].Color + "," + HighLights[0].Human);
+                writer.WriteLine(HighLights[1].Name + "," + HighLights[1].Color + "," + HighLights[1].Human);
+                writer.WriteLine(HighLights[2].Name + "," + HighLights[2].Color + "," + HighLights[2].Human);
+                writer.WriteLine(HighLights[3].Name + "," + HighLights[3].Color + "," + HighLights[3].Human);
             }
 
             filename = "Names\\Settings.txt";
@@ -68,7 +68,7 @@ namespace F1
                 }
                 if (_session == "10" || _session == "11")
                 {
-                    writer.WriteLine("Position, Driver, Team, Grid, Stops, Best, Time, Points, Penalties, Penalty Time");
+                    writer.WriteLine("Position, Driver, Team, Grid, Stops, Best, Time, Points, Penalties, Penalty Time, Warnings");
                 }
 
                 if (_session == "4" || _session == "5" || _session == "6" || _session == "7" || _session == "8" || _session == "9")
@@ -77,7 +77,7 @@ namespace F1
                     foreach (var driver in sortedList)
                     {
                         var Position = driver.m_position;
-                        var Driver = driver.ViewName;
+                        var Driver = driver.Name;
                         var Team = driver.Team;
                         var Best = TimeSpan.FromMilliseconds(driver.m_bestLapTime).ToString(@"mm\:ss\:fff");
                         TimeSpan span = TimeSpan.FromMilliseconds(Leader.m_bestLapTime - driver.m_bestLapTime);
@@ -86,10 +86,10 @@ namespace F1
                         string[] vars = { Position.ToString(), Driver, Team, Best.ToString(), Gap.ToString() };
                         writer.WriteLine(string.Join(",", vars));
                     }
-                    var player = sortedList.FirstOrDefault(x => x.Name == "Player");
+                    var player = sortedList.FirstOrDefault(x => HighLights.Where(y => y.Human).Select(z => z.Name).Contains(x.Name)) ;
                     if (player != null)
                     {
-                        var opponent = sortedList.FirstOrDefault(x => x.Name != "Player");
+                        var opponent = sortedList.FirstOrDefault(x => HighLights.Where(y => y.Human == false).Select(z => z.Name).Contains(x.Name));
                         TimeSpan diffspan = TimeSpan.FromMilliseconds(player.m_bestLapTime - opponent.m_bestLapTime);
                         var diff = diffspan.ToString(@"mm\:ss\:fff");
                         writer.WriteLine("Gap between players and AI: " + diff);
@@ -101,7 +101,7 @@ namespace F1
                     foreach (var driver in sortedList)
                     {
                         var Position = driver.m_position;
-                        var Driver = driver.ViewName;
+                        var Driver = driver.Name;
                         var Team = driver.Team;
                         var Grid = driver.m_gridPosition;
                         var Stops = driver.m_numPitStops;
@@ -112,15 +112,16 @@ namespace F1
                         var Points = driver.m_points;
                         var Penalties = driver.m_numPenalties;
                         var PenTime = driver.m_penaltiesTime;
+                        var Warnings = driver.Warnings;
 
                         string[] vars = { Position.ToString(), Driver, Team, Grid.ToString(), Stops.ToString(),
-                            Best.ToString(), Gap.ToString(), Points.ToString(), Penalties.ToString(), PenTime.ToString()  };
+                            Best.ToString(), Gap.ToString(), Points.ToString(), Penalties.ToString(), PenTime.ToString(), Warnings.ToString()  };
                         writer.WriteLine(string.Join(",", vars));
                     }
-                    var player = sortedList.FirstOrDefault(x => x.Name == "Player");
+                    var player = sortedList.FirstOrDefault(x => HighLights.Where(y => y.Human).Select(z => z.Name).Contains(x.Name));
                     if (player != null)
                     {
-                        var opponent = sortedList.FirstOrDefault(x => x.Name != "Player");
+                        var opponent = sortedList.FirstOrDefault(x => HighLights.Where(y => y.Human == false).Select(z => z.Name).Contains(x.Name));
                         TimeSpan diffspan = TimeSpan.FromSeconds(player.m_totalRaceTime - opponent.m_totalRaceTime);
                         var diff = diffspan.ToString(@"mm\:ss\:fff");
                         writer.WriteLine("Gap between players and AI: " + diff);
@@ -195,7 +196,18 @@ namespace F1
                     if (line == null)
                         break;
                     var lines = line.Split(',');
-                    HighLights.Add(new HighLight { Name = lines[0], Team = Convert.ToInt32(lines[1]), Country = Convert.ToInt32(lines[2]), ShowName = lines[3], Color = lines[4].ToString() });
+                    if (lines.Length > 3)
+                    {
+                        HighLights.Add(new HighLight { Name = lines[0], Color = lines[4].ToString(), Human = false });
+                    }
+                    else if(lines.Length == 2)
+                    {
+                        HighLights.Add(new HighLight { Name = lines[0], Color = lines[1].ToString(), Human = false });
+                    }
+                    else
+                    {
+                        HighLights.Add(new HighLight { Name = lines[0], Color = lines[1].ToString(), Human = Convert.ToBoolean(lines[2]) });
+                    }
                 }
             }
 

@@ -551,6 +551,7 @@ namespace F1
                                         userList[index].ResultStatus = ld.m_resultStatus.ToString();
                                         userList[index].Session = _session;
                                         userList[index].LapDistance = Convert.ToInt32(ld.m_lapDistance);
+                                        userList[index].Warnings = ld.m_totalWarnings.ToString();
                                         if (ld.m_currentLapNum == 1)
                                         {
                                             //Only on first lap, check if Start position is saved
@@ -559,7 +560,7 @@ namespace F1
                                                 //var lap = new Lap();
                                                 //lap.Position = ld.m_carPosition;
                                                 //userList[index].Laps.Add(ld.m_currentLapNum - 1, lap);
-                                                AddLap(userList[index].ViewName, ld.m_carPosition);
+                                                AddLap(userList[index].Name, ld.m_carPosition);
                                                 userList[index].StartPosSet = true;
                                             }
                                         }
@@ -588,7 +589,7 @@ namespace F1
                                                 {
                                                     userList[index].Laps[ld.m_currentLapNum - 1].Time = ld.m_lastLapTimeInMS;
                                                     userList[index].Laps[ld.m_currentLapNum - 1].Position = ld.m_carPosition;
-                                                    AddLap(userList[index].ViewName, ld.m_carPosition);
+                                                    AddLap(userList[index].Name, ld.m_carPosition);
                                                 }
                                             }
                                         }
@@ -651,8 +652,8 @@ namespace F1
                                             BestLap = "0"
                                         };
                                         userList.Add(user);
-                                        showDrivers.Add(new DriverGraph() { Name = user.ViewName, Checked = true });
-                                        AddGraph(user.ViewName);
+                                        showDrivers.Add(new DriverGraph() { Name = user.Name, Checked = true });
+                                        AddGraph(user.Name);
                                         if (userList.Count >= _numberOfDrivers)
                                             break;
                                     }

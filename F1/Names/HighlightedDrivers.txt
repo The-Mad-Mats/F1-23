@@ -1,4 +1,4 @@
-﻿Player,8,78,MadMats,Blue
-Player,4,27,Icehawk,Orange
-Player,1,78 ,Beemer,Yellow
-NORRIS,8,10,NORRIS,Green
+﻿MadMats,8,78,MadMats,Blue
+Icehawk,4,27,Icehawk,Orange
+BOTTAS,1,78 ,Beemer,Yellow
+ALBON,8,10,NORRIS,Green
