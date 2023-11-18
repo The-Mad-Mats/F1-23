@@ -1,4 +1,4 @@
-﻿MadMats,8,78,MadMats,Blue
-Icehawk,4,27,Icehawk,Orange
-BOTTAS,1,78 ,Beemer,Yellow
-ALBON,8,10,NORRIS,Green
+﻿MadMats,Blue,True
+Icehawk,Orange, True
+BOTTAS,Yellow,False
+ALBON,Green,False
