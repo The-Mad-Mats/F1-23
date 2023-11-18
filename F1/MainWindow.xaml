@@ -338,7 +338,7 @@
                         <DataGridTextColumn Header="Points" Binding="{Binding m_points}" Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
                         <DataGridTextColumn Header="Penalties" Binding="{Binding m_numPenalties}"  Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
                         <DataGridTextColumn Header="Time" Binding="{Binding m_penaltiesTime}"  Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
-                        <DataGridTextColumn Header="Warnings" Binding="{Binding m_warnings}"  Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
+                        <DataGridTextColumn Header="Warnings" Binding="{Binding Warnings}"  Width="Auto" FontSize="24" CellStyle="{StaticResource ActiveCellStyle}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

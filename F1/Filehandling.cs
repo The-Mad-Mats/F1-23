@@ -89,7 +89,7 @@ namespace F1
                     var player = sortedList.FirstOrDefault(x => HighLights.Where(y => y.Human).Select(z => z.Name).Contains(x.Name)) ;
                     if (player != null)
                     {
-                        var opponent = sortedList.FirstOrDefault(x => HighLights.Where(y => y.Human == false).Select(z => z.Name).Contains(x.Name));
+                        var opponent = sortedList.FirstOrDefault(x => !HighLights.Where(y => y.Human).Select(z => z.Name).Contains(x.Name));
                         TimeSpan diffspan = TimeSpan.FromMilliseconds(player.m_bestLapTime - opponent.m_bestLapTime);
                         var diff = diffspan.ToString(@"mm\:ss\:fff");
                         writer.WriteLine("Gap between players and AI: " + diff);
@@ -121,7 +121,7 @@ namespace F1
                     var player = sortedList.FirstOrDefault(x => HighLights.Where(y => y.Human).Select(z => z.Name).Contains(x.Name));
                     if (player != null)
                     {
-                        var opponent = sortedList.FirstOrDefault(x => HighLights.Where(y => y.Human == false).Select(z => z.Name).Contains(x.Name));
+                        var opponent = sortedList.FirstOrDefault(x => !HighLights.Where(y => y.Human).Select(z => z.Name).Contains(x.Name));
                         TimeSpan diffspan = TimeSpan.FromSeconds(player.m_totalRaceTime - opponent.m_totalRaceTime);
                         var diff = diffspan.ToString(@"mm\:ss\:fff");
                         writer.WriteLine("Gap between players and AI: " + diff);
