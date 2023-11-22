@@ -347,8 +347,8 @@
         <TabItem Header="Standings">
             <Grid DataContext="{Binding Source={StaticResource ViewModel}}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <DataGrid Name="Standings" AutoGenerateColumns="True" ItemsSource="{Binding Path=ChamionshipStandings}" Grid.Row="0"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
@@ -358,7 +358,19 @@
                 </StackPanel>
             </Grid>
         </TabItem>
-        
+        <TabItem Header="BestLaps">
+            <Grid DataContext="{Binding Source={StaticResource ViewModel}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DataGrid Name="BestLaps" AutoGenerateColumns="True" ItemsSource="{Binding Path=BestLaps}" Grid.Row="0"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <Button Content="Reload" Command="{Binding ReloadPosCommand}" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+
         <TabItem Header="Settings">
             <Grid DataContext="{Binding Source={StaticResource ViewModel}}" >
                 <Grid>

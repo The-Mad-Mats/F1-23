@@ -27,6 +27,7 @@ namespace F1
 
         private ObservableCollection<User> _users;
         private DataTable _championshipStanding;
+        private DataTable _bestLaps;
         private SeriesCollection _seriesCollection;
         private ObservableCollection<DriverGraph> _showDriversGraph;
         private ICommand _startCommand;
@@ -35,6 +36,7 @@ namespace F1
         private ICommand _saveSettingsCommand;
         private ICommand _reloadCommand;
         private ICommand _reloadPosCommand;
+        private ICommand _reloadBestLapCommand;
         private int _numberOfDrivers;
 
         #endregion
@@ -266,6 +268,15 @@ namespace F1
                 NotifyPropertyChanged("ChamionshipStandings");
             }
         }
+        public DataTable BestLaps
+        {
+            get { return _bestLaps; }
+            set
+            {
+                _bestLaps = value;
+                NotifyPropertyChanged("BestLaps");
+            }
+        }
 
 
         private string _session;
@@ -437,6 +448,18 @@ namespace F1
                 return _reloadPosCommand;
             }
         }
+        public ICommand ReloadBestLapCommand
+        {
+            get
+            {
+                if (_reloadBestLapCommand == null)
+                {
+                    _reloadBestLapCommand = new RelayCommand(param => this.ReloadBestLap(),
+                        null);
+                }
+                return _reloadBestLapCommand;
+            }
+        }
 
         #endregion
 
@@ -453,6 +476,7 @@ namespace F1
             YFormatter = value => (value * -1).ToString();
             ReadData();
             ReadStandings(false);
+            ReadBestLaps();
             Run = true;
             Task.Run(() => UDPReader());
 
@@ -477,6 +501,7 @@ namespace F1
         {
             //Run = false;
             //WriteData();
+                WriteFinalClassification(Users.ToList());
         }
 
         public void UDPReader()
@@ -487,6 +512,7 @@ namespace F1
                 cli.EnableBroadcast = true;
                 var userList = new List<User>();
                 var showDrivers = new List<DriverGraph>();
+                var sessionCompleted = false;
                 while (Run)
                 {
                     Thread.Sleep(0);
@@ -519,6 +545,7 @@ namespace F1
                                     CurrentSession = _session;
                                     userList = new List<User>();
                                     SeriesCollection = new SeriesCollection();
+                                    sessionCompleted = false;
                                 }
                             }
                             catch (Exception e)
@@ -853,7 +880,8 @@ namespace F1
                         List<User> sortedList = userList.OrderBy(y => y.m_position).ToList();
                         sortedList = sortedList.OrderBy(x => x.m_position == 0).ToList();
                         Users = new ObservableCollection<User>(sortedList);
-                        WriteFinalClassification(sortedList);
+                        if(sessionCompleted == false)
+                            WriteFinalClassification(sortedList);
                     }
                     else
                     {
@@ -934,6 +962,11 @@ namespace F1
         private void ReloadStandings(bool reloadPosition)
         {
             ReadStandings(reloadPosition);
+            ReadBestLaps();
+        }
+        private void ReloadBestLap()
+        {
+            ReadBestLaps();
         }
 
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -86,7 +87,7 @@ namespace F1
                         string[] vars = { Position.ToString(), Driver, Team, Best.ToString(), Gap.ToString() };
                         writer.WriteLine(string.Join(",", vars));
                     }
-                    var player = sortedList.FirstOrDefault(x => HighLights.Where(y => y.Human).Select(z => z.Name).Contains(x.Name)) ;
+                    var player = sortedList.FirstOrDefault(x => HighLights.Where(y => y.Human).Select(z => z.Name).Contains(x.Name));
                     if (player != null)
                     {
                         var opponent = sortedList.FirstOrDefault(x => !HighLights.Where(y => y.Human).Select(z => z.Name).Contains(x.Name));
@@ -125,6 +126,33 @@ namespace F1
                         TimeSpan diffspan = TimeSpan.FromSeconds(player.m_totalRaceTime - opponent.m_totalRaceTime);
                         var diff = diffspan.ToString(@"mm\:ss\:fff");
                         writer.WriteLine("Gap between players and AI: " + diff);
+                    }
+                    //Check best laps
+                    var humanList = sortedList.Where(x => HighLights.Where(y => y.Human).Select(z => z.Name).Contains(x.Name));
+                    var bestHuman = humanList.FirstOrDefault(y => y.m_bestLapTime == humanList.Min(x => x.m_bestLapTime));
+                    var bestLapCollection = ReadBestLaps();
+                    var bestLap = bestLapCollection.FirstOrDefault(x => x.Track == Track);
+                    if (_session == "4" || _session == "5" || _session == "6" || _session == "7" || _session == "8" || _session == "9")
+                    {
+                        var blTimeSpan = TimeSpan.ParseExact(bestLap.QTime, @"m\:ss\:fff", CultureInfo.InvariantCulture);
+                        if (bestHuman.m_bestLapTime < blTimeSpan.TotalMinutes)
+                        {
+                            bestLap.QTime = bestHuman.m_bestLapTime.ToString(@"mm\:ss\:fff");
+                            bestLap.QDriver = bestHuman.Name;
+                            bestLap.QSeason = SeasonName;
+                            SaveBestLaps(bestLapCollection);
+                        }
+                    }
+                    if (_session == "10" || _session == "11")
+                    {
+                        var blTimeSpan = TimeSpan.ParseExact(bestLap.RTime, @"m\:ss\:fff", CultureInfo.InvariantCulture);
+                        if (bestHuman.m_bestLapTime < blTimeSpan.TotalMinutes)
+                        {
+                            bestLap.RTime = bestHuman.m_bestLapTime.ToString(@"mm\:ss\:fff");
+                            bestLap.RDriver = bestHuman.Name;
+                            bestLap.RSeason = SeasonName;
+                            SaveBestLaps(bestLapCollection);
+                        }
                     }
                 }
             }
@@ -235,6 +263,57 @@ namespace F1
                     Seasons.Add(dir);
                 }
                 SelectedSeason = SeasonName;
+            }
+        }
+
+        private List<BestLaps> ReadBestLaps()
+        {
+            var bestLapsCollection = new List<BestLaps>();
+            FileInfo info = new FileInfo($"Result\\{SeasonName}\\BestLaps.txt");
+            using (StreamReader reader = info.OpenText())
+            {
+                while (true)
+                {
+                    string line = reader.ReadLine();
+                    if (line == null)
+                        break;
+                    var lines = line.Split(',');
+                    var bl = new BestLaps();
+                    bl.Track = lines[0];
+                    bl.QTime = lines[1];
+                    bl.QDriver = lines[2];
+                    bl.QSeason = lines[3];
+                    bl.RTime = lines[4];
+                    bl.RDriver = lines[5];
+                    bl.RSeason = lines[6];
+                    bestLapsCollection.Add(bl);
+                    var blTimeSpan = TimeSpan.ParseExact(bl.QTime, @"m\:ss\:fff", CultureInfo.InvariantCulture);
+
+                }
+            }
+            var dt = new DataTable();
+            dt.Columns.Add("Track");
+            dt.Columns.Add("Q Time");
+            dt.Columns.Add("Q Driver");
+            dt.Columns.Add("Q Season");
+            dt.Columns.Add("R Time");
+            dt.Columns.Add("R Driver");
+            dt.Columns.Add("R Season");
+            foreach (var b in bestLapsCollection)
+            {
+                dt.Rows.Add(b.Track,b.QTime,b.QDriver,b.QSeason,b.RTime,b.RDriver,b.RSeason);
+            }
+            BestLaps = dt;
+            return bestLapsCollection;
+        }
+        private void SaveBestLaps(List<BestLaps> bestLapsCollection)
+        {
+            using (StreamWriter writer = new StreamWriter($"Result\\{SeasonName}\\BestLaps.txt"))
+            {
+                foreach(BestLaps bl in bestLapsCollection) 
+                { 
+                    writer.WriteLine($"{bl.Track},{bl.QTime},{bl.QDriver},{bl.QSeason},{bl.RTime},{bl.RDriver},{bl.RSeason}"); 
+                }
             }
         }
 
