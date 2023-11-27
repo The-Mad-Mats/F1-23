@@ -127,32 +127,32 @@ namespace F1
                         var diff = diffspan.ToString(@"mm\:ss\:fff");
                         writer.WriteLine("Gap between players and AI: " + diff);
                     }
-                    //Check best laps
-                    var humanList = sortedList.Where(x => HighLights.Where(y => y.Human).Select(z => z.Name).Contains(x.Name));
-                    var bestHuman = humanList.FirstOrDefault(y => y.m_bestLapTime == humanList.Min(x => x.m_bestLapTime));
-                    var bestLapCollection = ReadBestLaps();
-                    var bestLap = bestLapCollection.FirstOrDefault(x => x.Track == Track);
-                    if (_session == "4" || _session == "5" || _session == "6" || _session == "7" || _session == "8" || _session == "9")
+                }
+                //Check best laps
+                var humanList = sortedList.Where(x => HighLights.Where(y => y.Human).Select(z => z.Name).Contains(x.Name));
+                var bestHuman = humanList.FirstOrDefault(y => y.m_bestLapTime == humanList.Min(x => x.m_bestLapTime));
+                var bestLapCollection = ReadBestLaps();
+                var bestLap = bestLapCollection.FirstOrDefault(x => x.Track == Track);
+                if (_session == "4" || _session == "5" || _session == "6" || _session == "7" || _session == "8" || _session == "9")
+                {
+                    var blTimeSpan = TimeSpan.ParseExact(bestLap.QTime, @"m\:ss\:fff", CultureInfo.InvariantCulture);
+                    if (bestHuman.m_bestLapTime < blTimeSpan.TotalMilliseconds)
                     {
-                        var blTimeSpan = TimeSpan.ParseExact(bestLap.QTime, @"m\:ss\:fff", CultureInfo.InvariantCulture);
-                        if (bestHuman.m_bestLapTime < blTimeSpan.TotalMinutes)
-                        {
-                            bestLap.QTime = bestHuman.m_bestLapTime.ToString(@"mm\:ss\:fff");
-                            bestLap.QDriver = bestHuman.Name;
-                            bestLap.QSeason = SeasonName;
-                            SaveBestLaps(bestLapCollection);
-                        }
+                        bestLap.QTime = TimeSpan.FromMilliseconds(bestHuman.m_bestLapTime).ToString(@"m\:ss\:fff");
+                        bestLap.QDriver = bestHuman.Name;
+                        bestLap.QSeason = SeasonName;
+                        SaveBestLaps(bestLapCollection);
                     }
-                    if (_session == "10" || _session == "11")
+                }
+                if (_session == "10" || _session == "11")
+                {
+                    var blTimeSpan = TimeSpan.ParseExact(bestLap.RTime, @"m\:ss\:fff", CultureInfo.InvariantCulture);
+                    if (bestHuman.m_bestLapTime < blTimeSpan.TotalMilliseconds)
                     {
-                        var blTimeSpan = TimeSpan.ParseExact(bestLap.RTime, @"m\:ss\:fff", CultureInfo.InvariantCulture);
-                        if (bestHuman.m_bestLapTime < blTimeSpan.TotalMinutes)
-                        {
-                            bestLap.RTime = bestHuman.m_bestLapTime.ToString(@"mm\:ss\:fff");
-                            bestLap.RDriver = bestHuman.Name;
-                            bestLap.RSeason = SeasonName;
-                            SaveBestLaps(bestLapCollection);
-                        }
+                        bestLap.RTime = TimeSpan.FromMilliseconds(bestHuman.m_bestLapTime).ToString(@"m\:ss\:fff");
+                        bestLap.RDriver = bestHuman.Name;
+                        bestLap.RSeason = SeasonName;
+                        SaveBestLaps(bestLapCollection);
                     }
                 }
             }
