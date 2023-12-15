@@ -358,6 +358,39 @@
                 </StackPanel>
             </Grid>
         </TabItem>
+
+        <TabItem Header="Race results">
+            <Grid DataContext="{Binding Source={StaticResource ViewModel}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DataGrid Name="RaceResult" AutoGenerateColumns="True" ItemsSource="{Binding Path=RaceResult}" Grid.Row="0"/>
+                <TextBlock Text="{Binding Path=DiffInRace,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10,10,10" FontSize="18" Grid.Row="1"  />
+                <StackPanel Orientation="Horizontal" Grid.Row="2">
+                    <ComboBox ItemsSource="{Binding Path=Seasons}" SelectedItem="{Binding Path=SelectedSeason,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10,10,10"/>
+                    <ComboBox ItemsSource="{Binding Path=Races}" SelectedItem="{Binding Path=SelectedRace}" Margin="10,10,10,10"/>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Qualification results">
+            <Grid DataContext="{Binding Source={StaticResource ViewModel}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DataGrid Name="QualiResult" AutoGenerateColumns="True" ItemsSource="{Binding Path=QualiResult}" Grid.Row="0"/>
+                <TextBlock Text="{Binding Path=DiffInQuali,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10,10,10" FontSize="18" Grid.Row="1"  />
+                <StackPanel Orientation="Horizontal" Grid.Row="2">
+                    <ComboBox ItemsSource="{Binding Path=Seasons}" SelectedItem="{Binding Path=SelectedSeason,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10,10,10"/>
+                    <ComboBox ItemsSource="{Binding Path=Qualifications}" SelectedItem="{Binding Path=SelectedQuali}" Margin="10,10,10,10"/>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+
         <TabItem Header="BestLaps">
             <Grid DataContext="{Binding Source={StaticResource ViewModel}}">
                 <Grid.RowDefinitions>

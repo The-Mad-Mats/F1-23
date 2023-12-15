@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 //using static F1.ViewModel;
 
 namespace F1
@@ -18,7 +19,7 @@ namespace F1
             var filename = "Names\\HighlightedDrivers.txt";
             using (StreamWriter writer = new StreamWriter(filename))
             {
-                writer.WriteLine(HighLights[0].Name + ","  + HighLights[0].Color + "," + HighLights[0].Human);
+                writer.WriteLine(HighLights[0].Name + "," + HighLights[0].Color + "," + HighLights[0].Human);
                 writer.WriteLine(HighLights[1].Name + "," + HighLights[1].Color + "," + HighLights[1].Human);
                 writer.WriteLine(HighLights[2].Name + "," + HighLights[2].Color + "," + HighLights[2].Human);
                 writer.WriteLine(HighLights[3].Name + "," + HighLights[3].Color + "," + HighLights[3].Human);
@@ -228,7 +229,7 @@ namespace F1
                     {
                         HighLights.Add(new HighLight { Name = lines[0], Color = lines[4].ToString(), Human = false });
                     }
-                    else if(lines.Length == 2)
+                    else if (lines.Length == 2)
                     {
                         HighLights.Add(new HighLight { Name = lines[0], Color = lines[1].ToString(), Human = false });
                     }
@@ -264,8 +265,38 @@ namespace F1
                 }
                 SelectedSeason = SeasonName;
             }
+            ReadRaces();
+            ReadQualis();
         }
 
+        private void ReadRaces()
+        {
+            Races = new ObservableCollection<string>();
+            if (Directory.Exists("Result"))
+            {
+                var di = new DirectoryInfo(Path.Combine("Result", SelectedSeason));
+                var files = di.GetFiles("*Race*.txt");
+                foreach (var file in files.OrderBy(x => x.Name.Split()[1]))
+                {
+                    Races.Add(file.Name);
+                }
+            }
+
+        }
+        private void ReadQualis()
+        {
+            Qualifications = new ObservableCollection<string>();
+            if (Directory.Exists("Result"))
+            {
+                var di = new DirectoryInfo(Path.Combine("Result", SelectedSeason));
+                var files = di.GetFiles("*Qualifying*.txt");
+                foreach (var file in files.OrderBy(x => x.Name.Split()[1]))
+                {
+                    Qualifications.Add(file.Name);
+                }
+            }
+
+        }
         private List<BestLaps> ReadBestLaps()
         {
             var bestLapsCollection = new List<BestLaps>();
@@ -301,7 +332,7 @@ namespace F1
             dt.Columns.Add("R Season");
             foreach (var b in bestLapsCollection)
             {
-                dt.Rows.Add(b.Track,b.QTime,b.QDriver,b.QSeason,b.RTime,b.RDriver,b.RSeason);
+                dt.Rows.Add(b.Track, b.QTime, b.QDriver, b.QSeason, b.RTime, b.RDriver, b.RSeason);
             }
             BestLaps = dt;
             return bestLapsCollection;
@@ -310,9 +341,9 @@ namespace F1
         {
             using (StreamWriter writer = new StreamWriter($"Result\\{SeasonName}\\BestLaps.txt"))
             {
-                foreach(BestLaps bl in bestLapsCollection) 
-                { 
-                    writer.WriteLine($"{bl.Track},{bl.QTime},{bl.QDriver},{bl.QSeason},{bl.RTime},{bl.RDriver},{bl.RSeason}"); 
+                foreach (BestLaps bl in bestLapsCollection)
+                {
+                    writer.WriteLine($"{bl.Track},{bl.QTime},{bl.QDriver},{bl.QSeason},{bl.RTime},{bl.RDriver},{bl.RSeason}");
                 }
             }
         }
@@ -422,5 +453,121 @@ namespace F1
             }
             ChamionshipStandings = dt;
         }
+        private void ReadRaceResult()
+        {
+            if (SelectedRace == null)
+                return;
+            var di = new DirectoryInfo(Path.Combine("Result", SelectedSeason));
+            if (!Directory.Exists(Path.Combine("Result", SelectedSeason)))
+            {
+                Directory.CreateDirectory(Path.Combine("Result", SelectedSeason));
+            }
+            var file = di.GetFiles(SelectedRace).FirstOrDefault(); 
+            var headers = new List<string>();
+            var rows = new List<List<string>>();
+            using (StreamReader reader = file.OpenText())
+            {
+
+                while (true)
+                {
+                    string line = reader.ReadLine();
+                    if (line == null)
+                        break;
+                    var lines = line.Split(',').ToList();
+                    if (lines[0] == "Position")
+                    {
+                        foreach (string linePart in lines)
+                        {
+                            headers.Add(linePart);
+                        }
+                    }
+                    else if (lines[0].StartsWith("Gap"))
+                    {
+                        DiffInRace = lines[0];
+                    }
+
+                    else
+                    {
+                        rows.Add(lines.ToList());
+                    }
+
+                }
+            }
+            var dt = new DataTable();
+            dt.Columns.Add("Position");
+            dt.Columns.Add("Driver");
+            dt.Columns.Add("Team");
+            dt.Columns.Add("Grid");
+            dt.Columns.Add("Stops");
+            dt.Columns.Add("Best");
+            dt.Columns.Add("Time");
+            dt.Columns.Add("Points");
+            dt.Columns.Add("Penalties");
+            dt.Columns.Add("Penalty Time");
+            if(headers.Count > 10)
+                dt.Columns.Add("Warnings");
+
+            foreach (var row in rows)
+            {
+                dt.Rows.Add(row.ToArray());
+            }
+            RaceResult = dt;
+
+        }
+        private void ReadQualiResult()
+        {
+            if (SelectedQuali == null)
+                return;
+            var di = new DirectoryInfo(Path.Combine("Result", SelectedSeason));
+            if (!Directory.Exists(Path.Combine("Result", SelectedSeason)))
+            {
+                Directory.CreateDirectory(Path.Combine("Result", SelectedSeason));
+            }
+            var file = di.GetFiles(SelectedQuali).FirstOrDefault();
+            var headers = new List<string>();
+            var rows = new List<List<string>>();
+            using (StreamReader reader = file.OpenText())
+            {
+
+                while (true)
+                {
+                    string line = reader.ReadLine();
+                    if (line == null)
+                        break;
+                    var lines = line.Split(',').ToList();
+                    if (lines[0] == "Position")
+                    {
+                        foreach (string linePart in lines)
+                        {
+                            headers.Add(linePart);
+                        }
+                    }
+                    else if (lines[0].StartsWith("Gap"))
+                    {
+                        DiffInQuali = lines[0];
+                    }
+
+                    else
+                    {
+                        rows.Add(lines.ToList());
+                    }
+
+                }
+            }
+            var dt = new DataTable();
+            dt.Columns.Add("Position");
+            dt.Columns.Add("Driver");
+            dt.Columns.Add("Team");
+            dt.Columns.Add("Best");
+            dt.Columns.Add("Gap");
+
+            foreach (var row in rows)
+            {
+                dt.Rows.Add(row.ToArray());
+            }
+            QualiResult = dt;
+
+        }
+
     }
 }

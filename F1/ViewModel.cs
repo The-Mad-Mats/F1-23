@@ -27,6 +27,8 @@ namespace F1
 
         private ObservableCollection<User> _users;
         private DataTable _championshipStanding;
+        private DataTable _raceResult;
+        private string _selectedRace;
         private DataTable _bestLaps;
         private SeriesCollection _seriesCollection;
         private ObservableCollection<DriverGraph> _showDriversGraph;
@@ -61,7 +63,68 @@ namespace F1
         public int SwitchInterval { get; set; }
         public string SeasonName { get; set; }
         public ObservableCollection<string> Seasons { get; set; }
-        public string SelectedSeason { get; set; }
+        private string _selectedSeason;
+        public string SelectedSeason 
+        { 
+            get
+            { 
+                return _selectedSeason;
+            }
+            set
+            {
+                _selectedSeason = value;
+                NotifyPropertyChanged("SelectedSeason");
+                ReadRaces();
+                ReadQualis();
+            }
+        }
+
+        private ObservableCollection<string> _races = new ObservableCollection<string>();
+        public ObservableCollection<string> Races 
+        { 
+            get
+            {
+                return _races;
+            }
+            set
+            {
+                _races = value;
+                NotifyPropertyChanged("Races");
+            }
+        }
+        public string SelectedRace
+        {
+            get { return _selectedRace; }
+            set
+            {
+                _selectedRace = value;
+                ReadRaceResult();
+            }
+        }
+
+        private ObservableCollection<string> _qualifications = new ObservableCollection<string>();
+        public ObservableCollection<string> Qualifications
+        {
+            get
+            {
+                return _qualifications;
+            }
+            set
+            {
+                _qualifications = value;
+                NotifyPropertyChanged("Qualifications");
+            }
+        }
+        private string _selectedQuali;
+        public string SelectedQuali
+        {
+            get { return _selectedQuali; }
+            set
+            {
+                _selectedQuali   = value;
+                ReadQualiResult();
+            } 
+        }
 
         private string twlf;
         public string TyreWearLF
@@ -266,6 +329,58 @@ namespace F1
             {
                 _championshipStanding = value;
                 NotifyPropertyChanged("ChamionshipStandings");
+            }
+        }
+        public DataTable RaceResult
+        {
+            get 
+            { 
+                return _raceResult;
+            }
+            set
+            {
+                _raceResult = value;
+                NotifyPropertyChanged("RaceResult");
+            }
+        }
+        private string _diffInRace;
+        public string DiffInRace
+        {
+            get
+            {
+                return _diffInRace;
+            }
+            set
+            {
+                _diffInRace = value;
+                NotifyPropertyChanged("DiffInRace");
+            }
+        }
+
+        private DataTable _qualiResult;
+        public DataTable QualiResult
+        {
+            get
+            {
+                return _qualiResult;
+            }
+            set
+            {
+                _qualiResult = value;
+                NotifyPropertyChanged("QualiResult");
+            }
+        }
+        private string _diffInQuali;
+        public string DiffInQuali
+        {
+            get
+            {
+                return _diffInQuali;
+            }
+            set
+            {
+                _diffInQuali = value;
+                NotifyPropertyChanged("DiffInQuali");
             }
         }
         public DataTable BestLaps
@@ -501,7 +616,6 @@ namespace F1
         {
             //Run = false;
             //WriteData();
-                WriteFinalClassification(Users.ToList());
         }
 
         public void UDPReader()
@@ -963,10 +1077,12 @@ namespace F1
         {
             ReadStandings(reloadPosition);
             ReadBestLaps();
+            ReadRaceResult();
         }
         private void ReloadBestLap()
         {
             ReadBestLaps();
+            ReadRaceResult();
         }
 
     }
