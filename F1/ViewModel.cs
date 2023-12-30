@@ -995,7 +995,11 @@ namespace F1
                         sortedList = sortedList.OrderBy(x => x.m_position == 0).ToList();
                         Users = new ObservableCollection<User>(sortedList);
                         if(sessionCompleted == false)
+                        {
                             WriteFinalClassification(sortedList);
+                            sessionCompleted = true;
+                        }
+
                     }
                     else
                     {
