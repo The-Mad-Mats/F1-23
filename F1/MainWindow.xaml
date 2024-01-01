@@ -252,17 +252,17 @@
 
         <TabItem Header="Status">
             <Grid DataContext="{Binding Source={StaticResource ViewModel}}">
-                <Image Grid.RowSpan="5" Grid.ColumnSpan="6" Stretch="None" Source="Images/F1-3.png" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=LeftFrontWingDamage,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="20,35" FontSize="24" Foreground="Black" />
-                <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding Path=RightFrontWingDamage,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,35" FontSize="24" Foreground="Black" />
-                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=TyreWearLF,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,20" FontSize="24"  Foreground="Black"/>
-                <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding Path=TyreWearRF,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,20" FontSize="24"  Foreground="Black"/>
-                <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Path=TyreWearLR,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10" FontSize="24"  Foreground="Black"/>
-                <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding Path=TyreWearRR,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10" FontSize="24"  Foreground="Black"/>
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=TyreTempLF,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,20" FontSize="24"  Foreground="Yellow"/>
-                <TextBlock Grid.Row="1" Grid.Column="5" Text="{Binding Path=TyreTempRF,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,20" FontSize="24"  Foreground="Yellow"/>
-                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=TyreTempLR,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10" FontSize="24"  Foreground="Yellow"/>
-                <TextBlock Grid.Row="3" Grid.Column="5" Text="{Binding Path=TyreTempRR,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10" FontSize="24"  Foreground="Yellow"/>
+                <Image Grid.RowSpan="5" Grid.ColumnSpan="6" Stretch="None" Source="Images/Test.png" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=LeftFrontWingDamage,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="20,30" FontSize="24" Foreground="Black" />
+                <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding Path=RightFrontWingDamage,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,30" FontSize="24" Foreground="Black" />
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=TyreWearLF,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,10" FontSize="24"  Foreground="Yellow"/>
+                <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding Path=TyreWearRF,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="16,10" FontSize="24"  Foreground="Yellow"/>
+                <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Path=TyreWearLR,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,35" FontSize="24"  Foreground="Yellow"/>
+                <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding Path=TyreWearRR,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="18,35" FontSize="24"  Foreground="Yellow"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=TyreTempLF,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10" FontSize="24"  Foreground="Yellow"/>
+                <TextBlock Grid.Row="1" Grid.Column="5" Text="{Binding Path=TyreTempRF,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,10" FontSize="24"  Foreground="Yellow"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=TyreTempLR,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,35" FontSize="24"  Foreground="Yellow"/>
+                <TextBlock Grid.Row="3" Grid.Column="5" Text="{Binding Path=TyreTempRR,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,35" FontSize="24"  Foreground="Yellow"/>
                 <TextBlock Grid.Row="4" Grid.Column="3" Text="{Binding Path=RearWingDamage,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10" FontSize="24"  Foreground="Black"/>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20*" />
