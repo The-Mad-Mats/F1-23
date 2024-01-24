@@ -16,6 +16,7 @@ namespace F1
         private string _drs;
         private string _fuelMix;
         private string _ersMode;
+        private int _cornerCutValue;
 
         #endregion
         #region Public variables
@@ -242,6 +243,24 @@ namespace F1
         public string Penalties { get; set; }
         public string Warnings { get; set; }
 
+        public int CornerCutValue 
+        { 
+            get { return _cornerCutValue % 3; }
+            set
+            {
+                if(_cornerCutValue != value)
+                {
+                    _cornerCutValue = value;
+                }
+            }
+        }
+        public string CornerCuts
+        {
+            get
+            {
+                return _cornerCutValue.ToString();
+            }
+        }
         public string TyreLaps { get; set; }
 
         public string TyreWear {

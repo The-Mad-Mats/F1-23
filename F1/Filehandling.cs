@@ -5,10 +5,6 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-//using static F1.ViewModel;
 
 namespace F1
 {
@@ -29,6 +25,11 @@ namespace F1
             using (StreamWriter writer = new StreamWriter(filename))
             {
                 writer.WriteLine(PortNumber.ToString() + ";" + SwitchingEnabled.ToString() + ";" + SwitchInterval + ";" + SeasonName);
+            }
+            var path = "Result\\" + SeasonName;
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
             }
 
         }
@@ -301,6 +302,11 @@ namespace F1
         {
             var bestLapsCollection = new List<BestLaps>();
             FileInfo info = new FileInfo($"Result\\{SeasonName}\\BestLaps.txt");
+            if(!info.Exists)
+            {
+                File.Copy("BestLaps.txt", $"Result\\{SeasonName}\\BestLaps.txt");
+
+            }
             using (StreamReader reader = info.OpenText())
             {
                 while (true)

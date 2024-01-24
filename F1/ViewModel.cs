@@ -693,6 +693,7 @@ namespace F1
                                         userList[index].Session = _session;
                                         userList[index].LapDistance = Convert.ToInt32(ld.m_lapDistance);
                                         userList[index].Warnings = ld.m_totalWarnings.ToString();
+                                        userList[index].CornerCutValue = ld.m_cornerCuttingWarnings;
                                         if (ld.m_currentLapNum == 1)
                                         {
                                             //Only on first lap, check if Start position is saved
@@ -833,10 +834,10 @@ namespace F1
                                         var e = td.m_tyresInnerTemperature[0] + td.m_tyresInnerTemperature[1] + td.m_tyresInnerTemperature[2] + td.m_tyresInnerTemperature[3];
                                         var f = e / 4;
                                         userList[index].TyreInnerTemp = f.ToString();
-                                        userList[index].LeftFrontInnerTemp = td.m_tyresInnerTemperature[0];
-                                        userList[index].RightFrontInnerTemp = td.m_tyresInnerTemperature[1];
-                                        userList[index].LeftRearInnerTemp = td.m_tyresInnerTemperature[2];
-                                        userList[index].RightRearInnerTemp = td.m_tyresInnerTemperature[3];
+                                        userList[index].LeftFrontInnerTemp = td.m_tyresInnerTemperature[2];
+                                        userList[index].RightFrontInnerTemp = td.m_tyresInnerTemperature[3];
+                                        userList[index].LeftRearInnerTemp = td.m_tyresInnerTemperature[0];
+                                        userList[index].RightRearInnerTemp = td.m_tyresInnerTemperature[1];
                                         userList[index].EngineTemp = td.m_engineTemperature.ToString();
                                         if (index == PlayerCarIndex)
                                         {
@@ -949,10 +950,10 @@ namespace F1
                                         userList[index].RearWingDamage = sd.m_rearWingDamage;
                                         if (index == PlayerCarIndex)
                                         {
-                                            TyreWearLF = Math.Round(100 - sd.m_tyresWear[0]).ToString();
-                                            TyreWearRF = Math.Round(100 - sd.m_tyresWear[1]).ToString();
-                                            TyreWearLR = Math.Round(100 - sd.m_tyresWear[2]).ToString();
-                                            TyreWearRR = Math.Round(100 - sd.m_tyresWear[3]).ToString();
+                                            TyreWearLF = Math.Round(100 - sd.m_tyresWear[2]).ToString();
+                                            TyreWearRF = Math.Round(100 - sd.m_tyresWear[3]).ToString();
+                                            TyreWearLR = Math.Round(100 - sd.m_tyresWear[0]).ToString();
+                                            TyreWearRR = Math.Round(100 - sd.m_tyresWear[1]).ToString();
                                             LeftFrontWingDamage = 100 - sd.m_frontLeftWingDamage;
                                             RightFrontWingDamage = 100 - sd.m_frontRightWingDamage;
                                             RearWingDamage = 100 - sd.m_rearWingDamage;

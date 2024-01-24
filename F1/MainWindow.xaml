@@ -178,6 +178,23 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="DataGridCell" x:Key="CornerCutCellStyle">
+            <Setter Property="Background" Value="White"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CornerCutValue}" Value="{x:Null}">
+                    <Setter Property="Background" Value="White"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding CornerCutValue}" Value="0">
+                    <Setter Property="Background" Value="White"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding CornerCutValue}" Value="1">
+                    <Setter Property="Background" Value="Orange"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding CornerCutValue}" Value="2">
+                    <Setter Property="Background" Value="Red"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
 
     </Window.Resources>
     <TabControl SelectionChanged="TabControl_SelectionChanged"  Name="Tab" HorizontalAlignment="Left" VerticalAlignment="Top" >
@@ -213,6 +230,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="CornerCutting" Binding="{Binding CornerCuts}"  Width="Auto" FontSize="24" CellStyle="{StaticResource CornerCutCellStyle}"/>
                         <DataGridTextColumn Header="Penalties" Binding="{Binding Penalties}"  Width="Auto" FontSize="24"/>
                         <DataGridTemplateColumn Header="Pits" Width="30" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
