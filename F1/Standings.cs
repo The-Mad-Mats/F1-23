@@ -23,4 +23,17 @@ namespace F1
         public int Total { get; set; }
         public List<Tuple<string, int>> PerRace { get; set; }
     }
+    public class TeamStandings
+    {
+        public HeaderStanding Header { get; set; }
+        public List<TeamStanding> Team { get; set; }
+
+    }
+    public class TeamStanding
+    {
+        public string Name { get; set; }
+        public int Total { get; set; }
+        public List<Tuple<string, string, int>> PerRace { get; set; }
+    }
+
 }

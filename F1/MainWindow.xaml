@@ -363,19 +363,52 @@
         </TabItem>
 
         <TabItem Header="Standings">
+            <TabControl Name="TabStandings" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                <TabItem Header="Driver">
+                    <Grid DataContext="{Binding Source={StaticResource ViewModel}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid Name="Standings" AutoGenerateColumns="True" ItemsSource="{Binding Path=ChamionshipStandings}" Grid.Row="0"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                            <Button Content="Reload points" Command="{Binding ReloadCommand}" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            <Button Content="Reload position" Command="{Binding ReloadPosCommand}" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <ComboBox ItemsSource="{Binding Path=Seasons}" SelectedItem="{Binding Path=SelectedSeason}" Margin="10,10,10,10"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Team">
+                    <Grid DataContext="{Binding Source={StaticResource ViewModel}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid Name="TeamStandings" AutoGenerateColumns="True" ItemsSource="{Binding Path=TeamChamionshipStandings}" Grid.Row="0"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                            <Button Content="Reload points" Command="{Binding ReloadCommand}" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            <Button Content="Reload position" Command="{Binding ReloadPosCommand}" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <ComboBox ItemsSource="{Binding Path=Seasons}" SelectedItem="{Binding Path=SelectedSeason}" Margin="10,10,10,10"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
+        </TabItem>
+        <!--<TabItem Header="Team Standings">
             <Grid DataContext="{Binding Source={StaticResource ViewModel}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <DataGrid Name="Standings" AutoGenerateColumns="True" ItemsSource="{Binding Path=ChamionshipStandings}" Grid.Row="0"/>
+                <DataGrid Name="TeamStandings" AutoGenerateColumns="True" ItemsSource="{Binding Path=TeamChamionshipStandings}" Grid.Row="0"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
                     <Button Content="Reload points" Command="{Binding ReloadCommand}" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Center" />
                     <Button Content="Reload position" Command="{Binding ReloadPosCommand}" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <ComboBox ItemsSource="{Binding Path=Seasons}" SelectedItem="{Binding Path=SelectedSeason}" Margin="10,10,10,10"/>
                 </StackPanel>
             </Grid>
-        </TabItem>
+        </TabItem>-->
 
         <TabItem Header="Race results">
             <Grid DataContext="{Binding Source={StaticResource ViewModel}}">

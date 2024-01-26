@@ -27,6 +27,7 @@ namespace F1
 
         private ObservableCollection<User> _users;
         private DataTable _championshipStanding;
+        private DataTable _teamChampionshipStanding;
         private DataTable _raceResult;
         private string _selectedRace;
         private DataTable _bestLaps;
@@ -331,6 +332,15 @@ namespace F1
                 NotifyPropertyChanged("ChamionshipStandings");
             }
         }
+        public DataTable TeamChamionshipStandings
+        {
+            get { return _teamChampionshipStanding; }
+            set
+            {
+                _teamChampionshipStanding = value;
+                NotifyPropertyChanged("TeamChamionshipStandings");
+            }
+        }
         public DataTable RaceResult
         {
             get 
@@ -591,6 +601,7 @@ namespace F1
             YFormatter = value => (value * -1).ToString();
             ReadData();
             ReadStandings(false);
+            ReadTeamStandings();
             ReadBestLaps();
             Run = true;
             Task.Run(() => UDPReader());
@@ -1081,6 +1092,7 @@ namespace F1
         private void ReloadStandings(bool reloadPosition)
         {
             ReadStandings(reloadPosition);
+            ReadTeamStandings();
             ReadBestLaps();
             ReadRaceResult();
         }

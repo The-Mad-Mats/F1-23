@@ -92,5 +92,16 @@ namespace F1
                 DoSwitch = DoSwitchOrg;
             }
         }
+        //private void TabStandingControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    if (TabStandings.SelectedIndex > 1)
+        //    {
+        //        DoSwitch = false;
+        //    }
+        //    else
+        //    {
+        //        DoSwitch = DoSwitchOrg;
+        //    }
+        //}
     }
 }

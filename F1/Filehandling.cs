@@ -459,6 +459,107 @@ namespace F1
             }
             ChamionshipStandings = dt;
         }
+
+        private void ReadTeamStandings()
+        {
+            var standings = new TeamStandings();
+            standings.Team = new List<TeamStanding> { };
+            standings.Header = new HeaderStanding();
+            standings.Header.Track = new List<Tuple<string, string>>
+            {
+                new Tuple<string, string>("Team", "0"),
+                new Tuple<string, string>("Total", "1")
+            };
+            var numberOfRaces = 0;
+            var di = new DirectoryInfo(Path.Combine("Result", SelectedSeason));
+            if (!Directory.Exists(Path.Combine("Result", SelectedSeason)))
+            {
+                Directory.CreateDirectory(Path.Combine("Result", SelectedSeason));
+            }
+            var files = di.GetFiles("*Race*.txt");
+            foreach (var file in files.OrderBy(x => x.Name.Split()[1]))
+            {
+                numberOfRaces++;
+                var filePart = file.Name.Split(' ');
+                standings.Header.Track.Add(new Tuple<string, string>(filePart[0], filePart[1]));
+                using (StreamReader reader = file.OpenText())
+                {
+                    while (true)
+                    {
+                        string line = reader.ReadLine();
+                        if (line == null)
+                            break;
+                        var lines = line.Split(',');
+                        if (lines[0] == "Position" || lines[0].StartsWith("Gap"))
+                            continue;
+                        var team = standings.Team.FirstOrDefault(x => x.Name == lines[2]);
+                        //foreach (var team in standings.Team.Where(x => x.Name == lines[2]))
+                        //{
+                            if (team == null)
+                            {
+                                    var pr = new List<Tuple<string, string, int>>();
+                                    for (int index = 1; index < numberOfRaces; index++)
+                                    {
+                                        pr.Add(new Tuple<string, string, int>(DateTime.MinValue.ToString(),"", 0));
+                                    }
+                                    pr.Add(new Tuple<string, string, int>(filePart[1], filePart[2], Convert.ToInt32(lines[7])));
+                                    standings.Team.Add(new TeamStanding { Name = lines[2], Total = Convert.ToInt32(lines[7]), PerRace = pr });
+                            }
+                            else
+                            {
+                                var perRace = team.PerRace.FirstOrDefault(x => x.Item1 == filePart[1] && x.Item2 == filePart[2]);
+                                if (perRace == null)
+                                {
+                                    team.PerRace.Add(new Tuple<string, string, int>(filePart[1], filePart[2], Convert.ToInt32(lines[7])));
+                                }
+                                else
+                                {
+                                    var newValue = perRace.Item3 + Convert.ToInt32(lines[7]);
+                                    team.PerRace.Remove(perRace);
+                                    team.PerRace.Add(new Tuple<string, string, int>(filePart[1],filePart[2], newValue));
+
+                                }
+                                team.Total += Convert.ToInt32(lines[7]);
+                            }
+                        //}
+                    }
+                }
+
+            }
+            var dt = new DataTable();
+            foreach (string w in standings.Header.Track.OrderBy(x => x.Item2).Select(y => y.Item1.ToString()).ToArray())
+            {
+                if (dt.Columns.Contains(w))
+                {
+                    if (dt.Columns.Contains(w + "2"))
+                    {
+                        dt.Columns.Add(w + "3");
+                    }
+                    else
+                    {
+                        dt.Columns.Add(w + "2");
+                    }
+                }
+                else
+                {
+                    dt.Columns.Add(w);
+
+                }
+            }
+            foreach (var driver in standings.Team.OrderByDescending(x => x.Total))
+            {
+                var l1 = new List<string>
+                {
+                    driver.Name,
+                    driver.Total.ToString()
+                };
+                var q = driver.PerRace.OrderBy(x => x.Item1).Select(y => y.Item3.ToString()).ToArray();
+                l1.AddRange(q);
+                dt.Rows.Add(l1.ToArray());
+            }
+            TeamChamionshipStandings = dt;
+        }
+
         private void ReadRaceResult()
         {
             if (SelectedRace == null)
